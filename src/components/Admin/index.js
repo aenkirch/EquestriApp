@@ -4,7 +4,6 @@ import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Session';
 import { UserList, UserItem } from '../Users';
-import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
 import { Header } from 'semantic-ui-react';
@@ -12,7 +11,6 @@ import { Header } from 'semantic-ui-react';
 const AdminPage = () => (
   <div>
     <Header as="h2">Admin</Header>
-    <p>The Admin Page is accessible by every signed in admin user.</p>
 
     <Switch>
       <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
@@ -22,7 +20,7 @@ const AdminPage = () => (
 );
 
 const condition = authUser =>
-  authUser && !!authUser.roles[ROLES.ADMIN];
+  authUser && !!authUser.isAdmin;
 
 export default compose(
   withEmailVerification,

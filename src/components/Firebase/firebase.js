@@ -103,6 +103,12 @@ class Firebase {
   message = uid => this.db.ref(`messages/${uid}`);
 
   messages = () => this.db.ref('messages');
+
+  // *** Métier API ***
+
+  // cavalier = uid => this.db.ref(`users/${uid}`);
+
+  cavaliers = () => this.db.ref('users').orderByChild("isMoniteur").equalTo(false);
 }
 
 export default Firebase;

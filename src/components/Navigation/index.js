@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
 
 import { Container, Menu } from 'semantic-ui-react';
 
@@ -26,7 +25,7 @@ const NavigationAuth = ({ authUser }) => (
       <Menu.Item name="Landing" as={Link} to={ROUTES.LANDING} />
       <Menu.Item name="home" as={Link} to={ROUTES.HOME} />
       <Menu.Item name="Account" as={Link} to={ROUTES.ACCOUNT} />
-      {!!authUser.roles[ROLES.ADMIN] && (
+      {!!authUser.isAdmin && (
         <Menu.Item name="Admin" as={Link} to={ROUTES.ADMIN} />
       )}
       <SignOutButton />

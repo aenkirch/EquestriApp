@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
 import {
   Form,
   Button,
@@ -25,7 +24,9 @@ const SignUpPage = () => (
 );
 
 const INITIAL_STATE = {
-  username: '',
+  lastName: '',
+  firstName: '',
+  phoneNumber: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -51,21 +52,20 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
-    const roles = {};
-
-    if (isAdmin) {
-      roles[ROLES.ADMIN] = ROLES.ADMIN;
-    }
+    const { lastName, firstName, email, passwordOne, phoneNumber, isAdmin } = this.state;
+    const isMoniteur = false;
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
         return this.props.firebase.user(authUser.user.uid).set({
-          username,
+          lastName,
+          firstName,
           email,
-          roles,
+          phoneNumber,
+          isAdmin,
+          isMoniteur
         });
       })
       .then(() => {
@@ -96,10 +96,12 @@ class SignUpFormBase extends Component {
 
   render() {
     const {
-      username,
+      lastName,
+      firstName,
       email,
       passwordOne,
       passwordTwo,
+      phoneNumber,
       isAdmin,
       error,
     } = this.state;
@@ -107,8 +109,7 @@ class SignUpFormBase extends Component {
     const isInvalid =
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
-      email === '' ||
-      username === '';
+      email === '';
 
     return (
       <div>
@@ -119,13 +120,31 @@ class SignUpFormBase extends Component {
         )}
         <Form onSubmit={this.onSubmit}>
           <Form.Field>
-            <label>Username</label>
+            <Checkbox
+              label="Admin"
+              name="isAdmin"
+              onChange={this.onChangeCheckbox}
+              checked={isAdmin}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Last Name</label>
             <input
-              name="username"
-              value={username}
+              name="lastName"
+              value={lastName}
               onChange={this.onChange}
               type="text"
-              placeholder="Full Name"
+              placeholder="Last Name"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>First Name</label>
+            <input
+              name="firstName"
+              value={firstName}
+              onChange={this.onChange}
+              type="text"
+              placeholder="First Name"
             />
           </Form.Field>
           <Form.Field>
@@ -159,15 +178,17 @@ class SignUpFormBase extends Component {
                 placeholder="Confirm Password"
               />
             </Form.Field>
+            <Form.Field>
+              <label>Phone</label>
+              <input
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={this.onChange}
+                type="number"
+                placeholder="telephone"
+              />
+            </Form.Field>
           </Form.Group>
-          <Form.Field>
-            <Checkbox
-              label="Admin"
-              name="isAdmin"
-              onChange={this.onChangeCheckbox}
-              checked={isAdmin}
-            />
-          </Form.Field>
           <Button primary disabled={isInvalid} type="submit">
             Sign Up
           </Button>
