@@ -23,13 +23,14 @@ class UserList extends Component {
   componentDidMount() {
     this.setState({ loading: true });
 
-    this.props.firebase.cavaliers().on('value', snapshot => {
+    this.props.firebase.noMoniteurs().on('value', snapshot => {
       const usersObject = snapshot.val();
 
-      const usersList = Object.keys(usersObject).map(key => ({
+      const usersList = Object.keys(usersObject)
+        .map(key => ({
         ...usersObject[key],
         uid: key,
-      }));
+      })).filter((user) => {return user.isAdmin === false}); // permet de filtrer les admins des non moniteurs => il ne reste que les cavaliers
 
       this.setState({
         users: usersList,

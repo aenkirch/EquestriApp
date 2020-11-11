@@ -108,7 +108,7 @@ class Firebase {
 
   // cavalier = uid => this.db.ref(`users/${uid}`);
 
-  cavaliers = () => this.db.ref('users').orderByChild("isMoniteur").equalTo(false);
+  noMoniteurs = () => this.db.ref('users').orderByChild("isMoniteur").equalTo(false);
 }
 
 export default Firebase;
