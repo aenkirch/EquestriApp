@@ -23,9 +23,6 @@ const NavigationAuth = ({ authUser }) => (
   <Menu pointing secondary>
     <Container>
       <Menu.Item name="home" as={Link} to={ROUTES.HOME} />
-      {!authUser.isAdmin && (
-          <Menu.Item name="home" as={Link} to={ROUTES.HOME} />       
-      )}
       <Menu.Item name="Account" as={Link} to={ROUTES.ACCOUNT} />
       {!!authUser.isAdmin && (
           <Menu.Item name="rechercher un cavalier" as={Link} to={ROUTES.SEARCH_CAVALIER} />          
