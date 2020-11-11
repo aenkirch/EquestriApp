@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Loader, Table, Input } from 'semantic-ui-react';
 
 import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-
-import { Header, Loader, Table, Button, Input } from 'semantic-ui-react';
 
 /*
   *
@@ -52,7 +49,6 @@ class UserList extends Component {
       if (this.state.fullUsersList[i].email.startsWith(input.target.value) || this.state.fullUsersList[i].firstName.startsWith(input.target.value) || this.state.fullUsersList[i].lastName.startsWith(input.target.value))
         temp.push(this.state.fullUsersList[i]);
     }
-    console.log(this.state.users);
     this.setState({users: temp});
   }
 
@@ -61,7 +57,6 @@ class UserList extends Component {
 
     return (
       <div>
-        <Header as="h2">Users</Header>
         {loading ? (
           <Loader active inline />
         ) : (
@@ -75,7 +70,6 @@ class UserList extends Component {
                   <Table.HeaderCell>First Name</Table.HeaderCell>
                   <Table.HeaderCell>Email Address</Table.HeaderCell>
                   <Table.HeaderCell>Phone Number</Table.HeaderCell>
-                  <Table.HeaderCell>Actions</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -85,18 +79,6 @@ class UserList extends Component {
                     <Table.Cell>{user.firstName}</Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>{user.phoneNumber}</Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        primary
-                        as={Link}
-                        to={{
-                          pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                          state: { user },
-                        }}
-                      >
-                        Details
-                      </Button>
-                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

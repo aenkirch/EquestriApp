@@ -26,7 +26,10 @@ const NavigationAuth = ({ authUser }) => (
       <Menu.Item name="home" as={Link} to={ROUTES.HOME} />
       <Menu.Item name="Account" as={Link} to={ROUTES.ACCOUNT} />
       {!!authUser.isAdmin && (
-        <Menu.Item name="Admin" as={Link} to={ROUTES.ADMIN} />
+          <Menu.Item name="rechercher un cavalier" as={Link} to={ROUTES.SEARCH_CAVALIER} />          
+      )}
+      {!!authUser.isAdmin && (
+          <Menu.Item name="creer compte pour un moniteur" as={Link} to={ROUTES.CREATE_ACCOUNT_FOR_MONITEURS} />       
       )}
       <SignOutButton />
     </Container>
