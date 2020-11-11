@@ -18,7 +18,8 @@ class UserList extends Component {
 
     this.state = {
       loading: false,
-      users: [],
+      fullUsersList: [],
+      users: []
     };
   }
 
@@ -28,8 +29,6 @@ class UserList extends Component {
     this.props.firebase.cavaliers().on('value', snapshot => {
       const usersObject = snapshot.val();
 
-      console.log(usersObject);
-
       const usersList = Object.keys(usersObject).map(key => ({
         ...usersObject[key],
         uid: key,
@@ -37,6 +36,7 @@ class UserList extends Component {
 
       this.setState({
         users: usersList,
+        fullUsersList: usersList,
         loading: false,
       });
     });
@@ -46,7 +46,15 @@ class UserList extends Component {
     this.props.firebase.users().off();
   }
 
-  // TODO: finir le Input qui va trier parmi les cavaliers 
+  filterTable (input) {
+    let temp = [];
+    for (let i = 0 ; i < this.state.fullUsersList.length ; i++) {
+      if (this.state.fullUsersList[i].email.startsWith(input.target.value) || this.state.fullUsersList[i].firstName.startsWith(input.target.value) || this.state.fullUsersList[i].lastName.startsWith(input.target.value))
+        temp.push(this.state.fullUsersList[i]);
+    }
+    console.log(this.state.users);
+    this.setState({users: temp});
+  }
 
   render() {
     const { users, loading } = this.state;
@@ -58,7 +66,7 @@ class UserList extends Component {
           <Loader active inline />
         ) : (
           <div>
-            <Input fluid icon="search" placeholder="Search...">
+            <Input onChange={(input) => this.filterTable(input)} fluid icon="search" placeholder="Search...">
             </Input>
             <Table singleLine>
               <Table.Header>
