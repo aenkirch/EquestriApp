@@ -9,6 +9,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import ManageHorsesPage from '../Horses';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -30,6 +31,7 @@ const App = () => (
         <Route path={ROUTES.ACCOUNT} component={AccountPage} />
         <Route path={ROUTES.SEARCH_CAVALIER} component={AdminPage} />
         <Route path={ROUTES.CREATE_ACCOUNT_FOR_MONITEURS} component={CreateMoniteurAccountPage} />
+        <Route path={ROUTES.MANAGE_HORSES} component={ManageHorsesPage} />
       </Container>
     </div>
   </Router>

@@ -30,6 +30,9 @@ const NavigationAuth = ({ authUser }) => (
       {!!authUser.isAdmin && (
           <Menu.Item name="creer compte pour un moniteur" as={Link} to={ROUTES.CREATE_ACCOUNT_FOR_MONITEURS} />       
       )}
+      {!!authUser.isAdmin && (
+          <Menu.Item name="gerer les chevaux" as={Link} to={ROUTES.MANAGE_HORSES} />       
+      )}
       <SignOutButton />
     </Container>
   </Menu>

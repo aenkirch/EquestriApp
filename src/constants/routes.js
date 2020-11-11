@@ -6,3 +6,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const SEARCH_CAVALIER = '/search-cavalier';
 export const CREATE_ACCOUNT_FOR_MONITEURS = '/create-account-for-moniteurs';
 export const ADMIN_DETAILS = '/admin/:id';
+export const MANAGE_HORSES = '/manage-horses';
