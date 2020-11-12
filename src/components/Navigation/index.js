@@ -24,6 +24,12 @@ const NavigationAuth = ({ authUser }) => (
     <Container>
       <Menu.Item name="home" as={Link} to={ROUTES.HOME} />
       <Menu.Item name="Account" as={Link} to={ROUTES.ACCOUNT} />
+      {!!authUser.isMoniteur && (
+          <Menu.Item name="gérer mes cours" as={Link} to={ROUTES.MANAGE_REPRISES} />          
+      )}
+      {(!authUser.isMoniteur && !authUser.isAdmin) && (
+          <Menu.Item name="inscription aux cours" as={Link} to={ROUTES.REGISTER_REPRISES} />          
+      )}
       {!!authUser.isAdmin && (
           <Menu.Item name="rechercher un cavalier" as={Link} to={ROUTES.SEARCH_CAVALIER} />          
       )}

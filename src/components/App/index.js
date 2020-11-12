@@ -10,6 +10,8 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import ManageHorsesPage from '../Horses';
+import ManageReprisesPage from '../Reprises/manage';
+import RegisterReprisesPage from '../Reprises/register';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -32,6 +34,8 @@ const App = () => (
         <Route path={ROUTES.SEARCH_CAVALIER} component={AdminPage} />
         <Route path={ROUTES.CREATE_ACCOUNT_FOR_MONITEURS} component={CreateMoniteurAccountPage} />
         <Route path={ROUTES.MANAGE_HORSES} component={ManageHorsesPage} />
+        <Route path={ROUTES.MANAGE_REPRISES} component={ManageReprisesPage} />
+        <Route path={ROUTES.REGISTER_REPRISES} component={RegisterReprisesPage} />
       </Container>
     </div>
   </Router>
