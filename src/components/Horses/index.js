@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loader, Table, Input, Button, Icon } from 'semantic-ui-react';
+import { Loader, Table, Input, Button, Icon, Segment, Grid, Divider } from 'semantic-ui-react';
 
 import { withFirebase } from '../Firebase';
 
@@ -43,12 +43,22 @@ class ManageHorsesPage extends Component {
 
   filterTable (input) {
     let temp = [];
-    for (let i = 0 ; i < this.state.fullUsersList.length ; i++) {
-      if (this.state.fullUsersList[i].email.startsWith(input.target.value) || this.state.fullUsersList[i].firstName.startsWith(input.target.value) || this.state.fullUsersList[i].lastName.startsWith(input.target.value))
+    for (let i = 0 ; i < this.state.fullHorsesList.length ; i++) {
+      if (this.state.fullHorsesList[i].name.startsWith(input.target.value))
         temp.push(this.state.fullUsersList[i]);
     }
-    this.setState({users: temp});
-  } // TODO: pouvoir ajouter un cheval
+    this.setState({horses: temp});
+  }
+
+  createHorse (input) {
+    this.props.firebase.horses().push({
+      name: input.target.value,
+    });
+  }
+
+  deleteHorse (horse) {
+    this.props.firebase.horse(horse.uid).remove();
+  }
 
   render() {
     const { horses, loading } = this.state;
@@ -59,8 +69,27 @@ class ManageHorsesPage extends Component {
           <Loader active inline />
         ) : (
           <div>
-            <Button icon="add"></Button> <Input onChange={(input) => this.filterTable(input)} icon="search" placeholder="Search...">
-            </Input>
+            <Segment>
+              <Grid columns={2} relaxed='very'>
+                <Grid.Column>
+                  <Input fluid 
+                    onKeyPress={event => {
+                      if (event.key === 'Enter') {
+                        this.createHorse(event)
+                      }
+                    }}
+                    icon="add" 
+                    placeholder="Créer cheval"
+                  >
+                  </Input>
+                </Grid.Column>
+                <Grid.Column>
+                  <Input fluid onChange={(input) => this.filterTable(input)} icon="search" placeholder="Search...">
+                  </Input>
+                </Grid.Column>
+              </Grid>
+              <Divider vertical fitted />
+            </Segment>
             <Table singleLine>
               <Table.Header>
                 <Table.Row>
@@ -74,7 +103,7 @@ class ManageHorsesPage extends Component {
                     <Table.Cell>{horse.name}</Table.Cell>
                     <Table.Cell>
                       <Button icon color="blue"><Icon name="pencil alternate"/></Button>
-                      <Button icon color="red"><Icon name="trash"/></Button>
+                      <Button icon color="red" onClick={() => this.deleteHorse(horse)}><Icon name="trash"/></Button>
                     </Table.Cell>
                   </Table.Row>
                 ))}

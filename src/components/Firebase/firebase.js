@@ -102,6 +102,8 @@ class Firebase {
 
   noMoniteurs = () => this.db.ref('users').orderByChild("isMoniteur").equalTo(false);
 
+  horse = uid => this.db.ref(`horses/${uid}`);
+
   horses = () => this.db.ref('horses');
 }
 
