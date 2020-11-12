@@ -56,6 +56,12 @@ class ManageHorsesPage extends Component {
     });
   }
 
+  renameHorse (input, horse) {
+    this.props.firebase.horse(horse.uid).set({
+      name: input.target.value
+    });
+  }
+
   deleteHorse (horse) {
     this.props.firebase.horse(horse.uid).remove();
   }
@@ -102,7 +108,12 @@ class ManageHorsesPage extends Component {
                   <Table.Row key={i}>
                     <Table.Cell>{horse.name}</Table.Cell>
                     <Table.Cell>
-                      <Button icon color="blue"><Icon name="pencil alternate"/></Button>
+                      <Input onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                          this.renameHorse(event, horse)
+                        }
+                      }} icon="pencil" placeholder="Rename..." style={{marginRight: "2%"}}>
+                      </Input>
                       <Button icon color="red" onClick={() => this.deleteHorse(horse)}><Icon name="trash"/></Button>
                     </Table.Cell>
                   </Table.Row>
