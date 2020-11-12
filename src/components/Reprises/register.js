@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loader, Table, Input, Button, Icon, Segment, Grid, Divider } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 
 import { withFirebase } from '../Firebase';
 
@@ -50,24 +50,8 @@ class RegisterReprisesPage extends Component {
     this.setState({horses: temp});
   }
 
-  createHorse (input) {
-    this.props.firebase.horses().push({
-      name: input.target.value,
-    });
-  }
-
-  renameHorse (input, horse) {
-    this.props.firebase.horse(horse.uid).set({
-      name: input.target.value
-    });
-  }
-
-  deleteHorse (horse) {
-    this.props.firebase.horse(horse.uid).remove();
-  }
-
   render() {
-    const { horses, loading } = this.state;
+    const { loading } = this.state;
 
     return (
       <div>
@@ -75,51 +59,6 @@ class RegisterReprisesPage extends Component {
           <Loader active inline />
         ) : (
           <div>
-            <Segment>
-              <Grid columns={2} relaxed='very'>
-                <Grid.Column>
-                  <Input fluid 
-                    onKeyPress={event => {
-                      if (event.key === 'Enter') {
-                        this.createHorse(event)
-                      }
-                    }}
-                    icon="add" 
-                    placeholder="Créer cheval"
-                  >
-                  </Input>
-                </Grid.Column>
-                <Grid.Column>
-                  <Input fluid onChange={(input) => this.filterTable(input)} icon="search" placeholder="Search...">
-                  </Input>
-                </Grid.Column>
-              </Grid>
-              <Divider vertical fitted />
-            </Segment>
-            <Table singleLine>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Actions</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {horses.map((horse, i) => (
-                  <Table.Row key={i}>
-                    <Table.Cell>{horse.name}</Table.Cell>
-                    <Table.Cell>
-                      <Input onKeyPress={event => {
-                        if (event.key === 'Enter') {
-                          this.renameHorse(event, horse)
-                        }
-                      }} icon="pencil" placeholder="Rename..." style={{marginRight: "2%"}}>
-                      </Input>
-                      <Button icon color="red" onClick={() => this.deleteHorse(horse)}><Icon name="trash"/></Button>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loader, Table, Input, Button, Icon, Segment, Grid, Divider } from 'semantic-ui-react';
+import { Header, Loader, Grid, Input, Select, Button } from 'semantic-ui-react';
 
 import { withFirebase } from '../Firebase';
 
@@ -10,7 +10,8 @@ class ManageReprisesPage extends Component {
     this.state = {
       loading: false,
       fullHorsesList: [],
-      horses: []
+      horses: [],
+      selectedHorses: []
     };
   }
 
@@ -23,9 +24,12 @@ class ManageReprisesPage extends Component {
 
       if (horsesObject) {
         horsesList = Object.keys(horsesObject)
-          .map(key => ({
+          .map((key, value) => ({
           ...horsesObject[key],
           uid: key,
+          key: key,
+          value: key,
+          text: horsesObject[key].name
         }));
       }
 
@@ -41,33 +45,10 @@ class ManageReprisesPage extends Component {
     this.props.firebase.users().off();
   }
 
-  filterTable (input) {
-    let temp = [];
-    for (let i = 0 ; i < this.state.fullHorsesList.length ; i++) {
-      if (this.state.fullHorsesList[i].name.startsWith(input.target.value))
-        temp.push(this.state.fullUsersList[i]);
-    }
-    this.setState({horses: temp});
-  }
-
-  createHorse (input) {
-    this.props.firebase.horses().push({
-      name: input.target.value,
-    });
-  }
-
-  renameHorse (input, horse) {
-    this.props.firebase.horse(horse.uid).set({
-      name: input.target.value
-    });
-  }
-
-  deleteHorse (horse) {
-    this.props.firebase.horse(horse.uid).remove();
-  }
-
+  onChange = (e, data) => this.setState({ selectedHorses: data.value }); //TODO: mettre tout sous forme de ligne et ajouter le choix du créneau dans un select
+  // TODO: ajout les créneaux en BDD à la main ?
   render() {
-    const { horses, loading } = this.state;
+    const { horses, selectedHorses, loading } = this.state;
 
     return (
       <div>
@@ -75,51 +56,21 @@ class ManageReprisesPage extends Component {
           <Loader active inline />
         ) : (
           <div>
-            <Segment>
-              <Grid columns={2} relaxed='very'>
+            <Header>Créer une reprise</Header>
+            <Grid columns={3}>
+              <Grid.Row>
                 <Grid.Column>
-                  <Input fluid 
-                    onKeyPress={event => {
-                      if (event.key === 'Enter') {
-                        this.createHorse(event)
-                      }
-                    }}
-                    icon="add" 
-                    placeholder="Créer cheval"
-                  >
-                  </Input>
+                  <Input type="text" placeholder="Nom de la reprise à créer"></Input>
                 </Grid.Column>
                 <Grid.Column>
-                  <Input fluid onChange={(input) => this.filterTable(input)} icon="search" placeholder="Search...">
-                  </Input>
+                  <Select multiple placeholder='Choisir les chevaux pour cette reprise' options={horses} value={selectedHorses} onChange={this.onChange}/>
                 </Grid.Column>
-              </Grid>
-              <Divider vertical fitted />
-            </Segment>
-            <Table singleLine>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Actions</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {horses.map((horse, i) => (
-                  <Table.Row key={i}>
-                    <Table.Cell>{horse.name}</Table.Cell>
-                    <Table.Cell>
-                      <Input onKeyPress={event => {
-                        if (event.key === 'Enter') {
-                          this.renameHorse(event, horse)
-                        }
-                      }} icon="pencil" placeholder="Rename..." style={{marginRight: "2%"}}>
-                      </Input>
-                      <Button icon color="red" onClick={() => this.deleteHorse(horse)}><Icon name="trash"/></Button>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+                <Grid.Column>
+                  <Select multiple placeholder='Choisir les chevaux pour cette reprise' options={horses} value={selectedHorses} onChange={this.onChange}/>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Button style={{marginTop: "2%"}}>Créer la reprise</Button>
           </div>
         )}
       </div>
