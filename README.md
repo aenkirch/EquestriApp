@@ -13,7 +13,7 @@ Related:
   * firebase
   * react-router
   * **semantic UI**
-* features:
+* features for the whole project with the boilerplate I used:
   * Sign In
   * Sign Up
   * Sign Out
