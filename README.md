@@ -29,8 +29,12 @@ Related:
 * relatives au projet:
   * Les cavaliers peuvent voir les cours disponibles avec des infos (fonction d'inscription aux cours non implémentée)
   * Les moniteurs peuvent créer les reprises
-  * Les administrateurs peuvent créer des chevaux et les supprimer
+  * Les moniteurs peuvent créer des chevaux et les supprimer
   * Les administrateurs peuvent créer des comptes pour les moniteurs
+  * Les administrateurs peuvent rechercher des cavaliers pour les contacter
+* missing features :
+  * Les cavaliers ne peuvent pas s'inscrire aux reprises
+  * Pas de tri fait par niveau (il manque cette entrée en BDD)
 
 ## Installation
 
